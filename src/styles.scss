@@ -1,0 +1,192 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Global CSS Variables
+:root {
+  /* --- Primitive Tokens (The Palette) --- */
+  --pr-white: #FFFFFF;
+  --pr-slate-50: #F8FAFC;
+  --pr-slate-100: #F1F5F9;
+  --pr-slate-200: #E2E8F0;
+  --pr-slate-400: #9CA3AF;
+  --pr-slate-600: #475569;
+  --pr-slate-900: #0F172A;
+  --pr-slate-950: #020617;
+
+  --pr-navy-900: #1E3A5F;
+  --pr-navy-950: #111827;
+
+  --pr-blue-500: #2563EB;
+  --pr-blue-400: #60A5FA;
+  --pr-blue-600: #1D4ED8;
+  --pr-sky-400: #38BDF8;
+
+  --pr-green-400: #34D399;
+  --pr-green-500: #10B981;
+
+  --pr-purple-400: #A78BFA;
+  --pr-purple-500: #8B5CF6;
+
+  --pr-amber-500: #F59E0B;
+  --pr-amber-400: #FBBF24;
+
+  --pr-red-500: #EF4444;
+  --pr-red-400: #F87171;
+
+  /* --- Semantic Tokens (The Usage) --- */
+  --background: var(--pr-slate-50);
+  --foreground: var(--pr-slate-900);
+  --card: var(--pr-white);
+  --card-foreground: var(--pr-slate-900);
+  --popover: var(--pr-white);
+  --popover-foreground: var(--pr-slate-900);
+  --primary: var(--pr-navy-900);
+  --primary-foreground: var(--pr-white);
+  --secondary: var(--pr-blue-500);
+  --secondary-foreground: var(--pr-white);
+  --muted: var(--pr-slate-100);
+  --muted-foreground: var(--pr-slate-600);
+  --accent: var(--pr-amber-500);
+  --accent-foreground: var(--pr-slate-900);
+  --destructive: var(--pr-red-500);
+  --destructive-foreground: var(--pr-white);
+  --border: var(--pr-slate-200);
+  --input: var(--pr-slate-200);
+  --ring: var(--pr-blue-500);
+  --sidebar: var(--pr-navy-900);
+  --sidebar-foreground: var(--pr-white);
+
+  /* --- Muscle Group Chip Colors --- */
+  --chip-chest: var(--pr-blue-400);
+  --chip-back: var(--pr-green-400);
+  --chip-legs: var(--pr-purple-400);
+  --chip-shoulders: var(--pr-amber-400);
+  --chip-arms: var(--pr-red-400);
+  --chip-core: var(--pr-sky-400);
+  --chip-full-body: var(--pr-slate-400);
+}
+
+.dark {
+  /* Re-map semantics to different primitives */
+  --background: var(--pr-slate-900);
+  --foreground: var(--pr-slate-100);
+  --card: var(--pr-navy-950);
+  --card-foreground: var(--pr-slate-100);
+  --popover: var(--pr-navy-950);
+  --popover-foreground: var(--pr-slate-100);
+  --primary: var(--pr-blue-400);
+  --primary-foreground: var(--pr-slate-900);
+  --secondary: var(--pr-sky-400);
+  --secondary-foreground: var(--pr-slate-900);
+  --muted: var(--pr-navy-950);
+  --muted-foreground: var(--pr-slate-400);
+  --accent: var(--pr-amber-400);
+  --accent-foreground: var(--pr-slate-900);
+  --destructive: var(--pr-red-400);
+  --destructive-foreground: var(--pr-slate-900);
+  --border: var(--pr-slate-900);
+  --input: var(--pr-slate-900);
+  --ring: var(--pr-blue-400);
+  --sidebar: var(--pr-navy-950);
+  --sidebar-foreground: var(--pr-slate-100);
+
+  /* Muscle group chips remain the same in dark mode */
+  /* They already use the -400 variants which work well on dark backgrounds */
+}
+
+
+// Angular Material Theme Configuration (M2 Syntax for Stability)
+// 1. Define Custom Palettes using our design tokens
+// Custom primary palette based on --pr-navy-900 (#1E3A5F)
+$custom-navy-palette: (
+  50: #e3e8ed,
+  100: #b9c5d3,
+  200: #8b9fb6,
+  300: #5d7999,
+  400: #3a5c83,
+  500: var(--pr-navy-900),
+  // Main color - matches --pr-navy-900
+  600: #1a3457,
+  700: #162c4d,
+  800: #122543,
+  900: #0a1832,
+  A100: #6a9aff,
+  A200: #3777ff,
+  A400: #0454ff,
+  A700: #003eea,
+  contrast: (50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: var(--pr-white),
+    400: var(--pr-white),
+    500: var(--pr-white),
+    600: var(--pr-white),
+    700: var(--pr-white),
+    800: var(--pr-white),
+    900: var(--pr-white),
+    A100: rgba(black, 0.87),
+    A200: var(--pr-white),
+    A400: var(--pr-white),
+    A700: var(--pr-white),
+  )
+);
+
+$liftmate-primary: mat.m2-define-palette($custom-navy-palette, 500);
+$liftmate-accent: mat.m2-define-palette(mat.$m2-amber-palette, 500);
+$liftmate-warn: mat.m2-define-palette(mat.$m2-red-palette);
+
+// 2. Define Theme
+$liftmate-theme: mat.m2-define-light-theme((color: (primary: $liftmate-primary,
+        accent: $liftmate-accent,
+        warn: $liftmate-warn,
+      )));
+
+// 3. Apply Theme
+@include mat.all-component-themes($liftmate-theme);
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Geist", Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.mat-mdc-menu-panel {
+  background-color: var(--primary) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+
+  /* List Container */
+  .mat-mdc-menu-content {
+    padding: 0 !important;
+  }
+
+  /* Menu Items */
+  .mat-mdc-menu-item {
+    color: var(--primary-foreground) !important;
+    border-radius: 0 !important;
+    height: 56px !important;
+    /* Standard material menu item height */
+
+    .mat-mdc-menu-item-text {
+      color: var(--primary-foreground) !important;
+    }
+
+    mat-icon {
+      color: var(--primary-foreground) !important;
+      margin-right: 16px;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+}

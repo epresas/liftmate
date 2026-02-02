@@ -1,0 +1,13 @@
+<header class="page-header">
+  <div class="page-header__info">
+    <h1 class="page-header__title">{{title()}}</h1>
+    @if (subtitle()) {
+    <span class="page-header__subtitle">{{subtitle()}}</span>
+    }
+  </div>
+  @if (actionsTpl) {
+  <div class="page-header__actions">
+    <ng-container *ngTemplateOutlet="actionsTpl" />
+  </div>
+  }
+</header>

@@ -1,0 +1,17 @@
+<mat-toolbar color="primary">
+  <button mat-button [matMenuTriggerFor]="menu" aria-label="Navigation menu">
+    <mat-icon>menu</mat-icon>
+    <div class="header__title">
+      <mat-icon class="header__title-icon">fitness_center</mat-icon>
+      <span>{{headerTitle}}</span>
+    </div>
+  </button>
+  <mat-menu #menu="matMenu">
+    @for (link of linksConfig; track link.id) {
+    <a routerLink="{{link.path}}" mat-menu-item>
+      <mat-icon>{{link.icon}}</mat-icon>
+      {{link.label}}
+    </a>
+    }
+  </mat-menu>
+</mat-toolbar>

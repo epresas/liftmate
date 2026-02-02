@@ -1,0 +1,11 @@
+<app-page-header title="Exercises" subtitle="Manage your exercise library">
+  <ng-template #actions>
+    <button mat-flat-button color="primary">
+      <mat-icon>add</mat-icon>
+      <span>Add Exercise</span>
+    </button>
+  </ng-template>
+</app-page-header>
+
+<app-exercise-filters [filters]="filters()" (filtersChange)="onFiltersChange($event)" ngSkipHydration />
+<app-exercise-table [filters]="filters()" ngSkipHydration />

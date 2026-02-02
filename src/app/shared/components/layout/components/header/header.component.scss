@@ -1,0 +1,14 @@
+.header {
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 16px;
+  }
+
+  &__title-icon {
+    font-size: 24px;
+    color: var(--accent);
+  }
+
+}
