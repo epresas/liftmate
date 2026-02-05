@@ -2,7 +2,7 @@
   @if (!isReady()) {
   <div class="exercise-table__loader">
     <p>Fetching table data...</p>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-spinner [diameter]="40"></mat-spinner>
   </div>
   }
 

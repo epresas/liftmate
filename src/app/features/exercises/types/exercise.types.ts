@@ -6,6 +6,8 @@ export enum MuscleGroup {
   LEGS = 'Legs',
   SHOULDERS = 'Shoulders',
   ARMS = 'Arms',
+  BICEPS = 'Biceps',
+  TRICEPS = 'Triceps',
   CORE = 'Core',
   FULL_BODY = 'Full Body'
 }

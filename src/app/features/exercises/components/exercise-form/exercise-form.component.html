@@ -1,0 +1,38 @@
+<app-dialog [title]="title()" saveLabel="Save" cancelLabel="Cancel" (onSave)="handleSaveForm()"
+  [isSaveDisabled]="exerciseForm.invalid">
+  <form class="exercise-form" [formGroup]="exerciseForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Exercise Name</mat-label>
+      <input matInput placeholder="Example: Bench Press" formControlName="name" />
+      @if (exerciseForm.get('name')?.hasError('required')) {
+      <mat-error>Name is <strong>required</strong></mat-error>
+      } @else if (exerciseForm.get('name')?.hasError('noNumbers')) {
+      <mat-error>Name cannot contain <strong>numbers</strong></mat-error>
+      }
+    </mat-form-field>
+    <div class="exercise-form__select-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Muscle Group</mat-label>
+        <mat-select formControlName="muscleGroup">
+          @for(group of muscleGroupOptions; track group.id) {
+          <mat-option [value]="group.value">{{group.label}}</mat-option>
+          }
+        </mat-select>
+        @if (exerciseForm.get('muscleGroup')?.hasError('required')) {
+        <mat-error>Muscle group is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Exercise Type</mat-label>
+        <mat-select formControlName="type">
+          @for(type of exerciseTypeOptions; track type.id) {
+          <mat-option [value]="type.value">{{type.label}}</mat-option>
+          }
+        </mat-select>
+        @if (exerciseForm.get('type')?.hasError('required')) {
+        <mat-error>Exercise type is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+    </div>
+  </form>
+</app-dialog>

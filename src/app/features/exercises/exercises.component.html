@@ -1,6 +1,6 @@
 <app-page-header title="Exercises" subtitle="Manage your exercise library">
   <ng-template #actions>
-    <button mat-flat-button color="primary">
+    <button mat-flat-button color="primary" (click)="openExerciseDialog()">
       <mat-icon>add</mat-icon>
       <span>Add Exercise</span>
     </button>
@@ -8,4 +8,4 @@
 </app-page-header>
 
 <app-exercise-filters [filters]="filters()" (filtersChange)="onFiltersChange($event)" ngSkipHydration />
-<app-exercise-table [filters]="filters()" ngSkipHydration />
+<app-exercise-table [filters]="filters()" [exercisesList]="(exercises$ | async) || []" ngSkipHydration />

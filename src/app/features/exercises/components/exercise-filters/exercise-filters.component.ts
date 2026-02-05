@@ -26,6 +26,8 @@ export class ExerciseFiltersComponent {
     { value: MuscleGroup.LEGS, viewValue: 'Legs' },
     { value: MuscleGroup.SHOULDERS, viewValue: 'Shoulders' },
     { value: MuscleGroup.ARMS, viewValue: 'Arms' },
+    { value: MuscleGroup.BICEPS, viewValue: 'Biceps' },
+    { value: MuscleGroup.TRICEPS, viewValue: 'Triceps' },
     { value: MuscleGroup.CORE, viewValue: 'Core' },
     { value: MuscleGroup.FULL_BODY, viewValue: 'Full Body' },
   ];

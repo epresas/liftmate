@@ -1,44 +1,27 @@
-import { Component, computed, input, signal, afterNextRender } from '@angular/core';
+import { Component, computed, input, signal, afterNextRender, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { Exercise, MuscleGroup, ExerciseType, ExerciseFilters } from '@features/exercises/types/exercise.types';
-
-const EXERCISES: Exercise[] = [
-  {
-    id: '1',
-    name: 'Barbell Bench Press',
-    muscleGroup: MuscleGroup.CHEST,
-    type: ExerciseType.BARBELL,
-    createdAt: new Date(),
-  },
-  {
-    id: '2',
-    name: 'Dumbbell Lateral Raise',
-    muscleGroup: MuscleGroup.SHOULDERS,
-    type: ExerciseType.DUMBBELL,
-    createdAt: new Date(),
-  },
-  {
-    id: '3',
-    name: 'Barbell Squat',
-    muscleGroup: MuscleGroup.LEGS,
-    type: ExerciseType.BARBELL,
-    createdAt: new Date(),
-  },
-];
+import { Exercise, ExerciseFilters } from '@features/exercises/types/exercise.types';
+import { MatDialog } from '@angular/material/dialog';
+import { StorageService } from '@shared/services/storage/storage.service';
+import { ExerciseFormComponent } from '../exercise-form/exercise-form.component';
+import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-exercise-table',
   standalone: true,
-  imports: [MatTableModule, MatIconModule, MatButtonModule, MatProgressBarModule],
+  imports: [MatTableModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, ExerciseFormComponent],
   templateUrl: './exercise-table.component.html',
   styleUrl: './exercise-table.component.scss'
 })
 export class ExerciseTableComponent {
   isReady = signal(false);
+  exercisesList = input<Exercise[]>();
+  private dialog = inject(MatDialog);
+  private storage = inject(StorageService);
 
   constructor() {
     afterNextRender(() => {
@@ -49,10 +32,11 @@ export class ExerciseTableComponent {
   displayedColumns: string[] = ['exerciseName', 'muscleGroup', 'equipment', 'actions'];
 
   filteredExercises = computed(() => {
+    const list = this.exercisesList() || [];
     const filters = this.filters();
-    if (!filters) return EXERCISES;
+    if (!filters) return list;
 
-    return EXERCISES.filter(exercise => {
+    return list.filter(exercise => {
       const matchesSearch = exercise.name.toLowerCase().includes(filters.searchText.toLowerCase());
       const matchesMuscleGroup = filters.muscleGroup === 'all' || exercise.muscleGroup === filters.muscleGroup;
       return matchesSearch && matchesMuscleGroup;
@@ -66,10 +50,24 @@ export class ExerciseTableComponent {
   });
 
   onEdit(exercise: Exercise) {
-    console.log('Editing exercise:', exercise);
+    this.dialog.open(ExerciseFormComponent, {
+      data: exercise,
+      width: '400px'
+    });
   }
-
   onDelete(exercise: Exercise) {
-    console.log('Deleting exercise:', exercise);
+    this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Delete Exercise',
+        message: `Are you sure you want to delete ${exercise.name}?`,
+        cancelLabel: 'Cancel',
+        saveLabel: 'Delete'
+      }
+    }).afterClosed().subscribe(result => {
+      console.log('deletion', result);
+      if (result) {
+        this.storage.delete('exercises', exercise.id);
+      }
+    });
   }
 }
