@@ -35,7 +35,11 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        # Este es un "Nuclear Fix" temporal. Al borrar el lockfile y usar 'npm install', 
+        # forzamos a NPM a que regenere las dependencias detectando el entorno Linux del CI.
+        run: |
+          rm -f package-lock.json
+          npm install
 
       - name: Run Tests
         run: npm test -- --watch=false --browsers=ChromeHeadless
