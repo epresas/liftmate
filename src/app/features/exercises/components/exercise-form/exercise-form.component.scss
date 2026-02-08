@@ -1,0 +1,15 @@
+.exercise-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+
+  &__select-group {
+    display: flex;
+    gap: 1rem;
+
+    mat-form-field {
+      flex: 1;
+    }
+  }
+}
