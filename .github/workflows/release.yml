@@ -1,0 +1,40 @@
+name: Production Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine Release Type
+        id: release_type
+        run: |
+          # Obtenemos el título del último commit (el merge commit)
+          TITLE=$(git log -1 --pretty=%B)
+          echo "Commit Title: $TITLE"
+          
+          # Extraemos major/minor/patch. Si no hay, por defecto es patch.
+          if [[ $TITLE =~ (major|minor|patch) ]]; then
+            TYPE="${BASH_REMATCH[1]}"
+            echo "type=$TYPE" >> $GITHUB_OUTPUT
+            echo "Detected release type: $TYPE"
+          else
+            echo "type=patch" >> $GITHUB_OUTPUT
+            echo "No prefix detected, defaulting to patch"
+          fi
+
+      - name: Create Version Tag
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: ${{ steps.release_type.outputs.type }}
+          WITH_V: true

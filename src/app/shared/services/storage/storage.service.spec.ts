@@ -14,7 +14,7 @@ describe('StorageService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  it('should save data successfully', () => {
+  it('should save data and get data successfully', () => {
     const exercise = {
       id: '1',
       name: 'test exercise',
@@ -32,6 +32,13 @@ describe('StorageService', () => {
         updatedAt: exercise.updatedAt.toISOString()
       }
     ]);
+    service.watch$('test').subscribe(items => {
+      expect(items).toContain(jasmine.objectContaining({
+        ...exercise,
+        createdAt: exercise.createdAt.toISOString(),
+        updatedAt: exercise.updatedAt.toISOString()
+      }))
+    })
   });
   it('should update data successfully', () => {
     const exercise = {
